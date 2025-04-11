@@ -1,4 +1,5 @@
 /power-py
 .env
+/data
 
 __pycache__
