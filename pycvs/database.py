@@ -1,9 +1,9 @@
 import os
-from mysql.connector import (connection)
-from dotenv import load_dotenv
-from decorator import Validate_Object,Validate_Conexion, Transform_to_list
 import pandas as pd
-from file import Files
+from pycvs.file import Files
+from dotenv import load_dotenv
+from mysql.connector import (connection)
+from pycvs.decorators.decorator import Validate_Object,Validate_Conexion, Transform_to_list
 
 class Database:
     _cnx = None
@@ -57,7 +57,7 @@ class Database:
         except Exception as e:
             raise ('error')
     
-    def extract_data_to_cv(self,):
+    def extract_data_to_cv(self):
         self._path= self._file_manager.generate_path(self._path)
 
         try:
@@ -73,12 +73,14 @@ class Database:
                     print(f"El archivo '{archivo}' fue guardado correctamente.")
                 else:
                     print("No se pudo guardar el archivo.")
+
+            self.close_conexion()
             
         except Exception as e:
             print(e)
             pass
     
-    def cerrar_conexion(self):
+    def close_conexion(self):
         if self._cnx and self._cnx.is_connected():
             self._cnx.close()
             print("Conexión cerrada.")
